@@ -10,7 +10,6 @@
     <div class="main-container">
       <h1>TIC TAC TOE</h1>
       <div id="status">Player X's turn</div>
-
       <div class="container">
         <button class="cell" cellIndex="0"></button>
         <button class="cell" cellIndex="1"></button>
@@ -25,6 +24,18 @@
 
       <button onclick="restart()" id="restart-button">Restart Game</button>
     </div>
+    <div class="side-box">
+      <div class="players">
+        <label for="">Player one:</label>
+        <input type="text" id="playerX" placeholder="Player X Name" />
+        <label for="">Player two:</label>
+        <input type="text" id="playerO" placeholder="Player O Name" />
+        <button id="savePlayers">Save Players</button>
+      </div>
+
+      <h3>Game History</h3>
+      <ul id="history"></ul>
+    </div>  
 
     <script src="index.js"></script>
   </body>

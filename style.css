@@ -55,3 +55,82 @@ button {
   cursor: pointer;
   font-weight: 600;
 }
+
+/* SIDE BOX CONTAINER */
+.side-box {
+  background: #ffffff;
+  padding: 25px;
+  width: 300px;
+  margin: 50px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.players label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.players input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid gray;
+  font-size: 14px;
+}
+
+.players input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+}
+
+#savePlayers {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#savePlayers:hover {
+  background-color: #45a049;
+}
+
+.side-box h3 {
+  padding-bottom: 6px;
+  border-bottom: 2px solid #eee;
+  font-size: 18px;
+}
+
+#history {
+  
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+#history li {
+  background: #f4f4f4;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+#history li:hover {
+  background: #e0e0e0;
+}
+
