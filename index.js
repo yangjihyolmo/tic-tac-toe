@@ -4,7 +4,7 @@ let restart = document.getElementById("restart-button")
 
 let current = "X";
 let board = ["", "", "", "", "", "", "", "", ""];
-let runnning = true;
+let running = true;
 
 let wins = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -13,18 +13,25 @@ let wins = [
 ];
 initalizeGame()
 
-function initalizeGame()={
+function initalizeGame() {
     cells.forEach(cell => cell.addEventListener('click', cellClicked))
     restart.addEventListener("click", restart)
-    statusText.textContent= `${current}'s turn`
+    statusText.textContent = `${current}'s turn`;
+    running = false;
 }
 
-function cellClicked()={
-
+function cellClicked() {
+    const cellIndex = this.getAttribute("cellIndex")
+    if (board[cellIndex] != "" || !running) {
+        return;
+    }
+    updateCell(this, cellIndex)
+    checkWinner()
 }
 
 function updateCell(cell, index) {
-
+    board[index] = current;
+    cell.textContent = current;
 }
 
 function changePlayer() {
@@ -35,6 +42,6 @@ function checkWinner() {
 
 }
 
-function restart()= {
+function restart() {
 
 }
