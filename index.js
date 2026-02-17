@@ -6,7 +6,6 @@ let playerXInput = document.getElementById("playerX")
 let historyList = document.getElementById("history")
 let saveBtn = document.getElementById("savePlayers")
 
-let players = { X: "Player X", O: "Player O" };
 let current = "X";
 let board = ["", "", "", "", "", "", "", "", ""];
 let running = false;
@@ -18,60 +17,54 @@ let wins = [
 ];
 
 initializeGame();
-loadhistory();
-
 
 function initializeGame() {
-    cells.forEach(cell => cell.addEventListener('click', cellClicked))
-    restartBtn.addEventListener("click", restart)
+    cells.forEach(cell => cell.addEventListener('click', cellClicked));
+    restartBtn.addEventListener("click", restart);
     saveBtn.addEventListener("click", savePlayers);
+
+    loadPlayers();
+    displayHistory();
+
     statusText.textContent = "Player " + current + "'s turn";
     running = true;
 }
 
 function savePlayers() {
-    players.X = playerXInput.value || "Player X";
-    players.O = playerOInput.value || "Player O";
+    const playerX = playerXInput.value.trim();
+    const playerO = playerOInput.value.trim();
 
-    localStorage.setItem("players", JSON.stringify(players));
-    statusText.textContent = "Player " + current + "'s turn";
+    if (playerX === "" || playerO === "") {
+        alert("Please enter names for both players.");
+        return;
+    }
+
+    localStorage.setItem("playerX", playerX);
+    localStorage.setItem("playerO", playerO);
+
+    alert("Players saved successfully!");
 }
 
 function loadPlayers() {
-    const savedPlayers = localStorage.getItem("players");
+    const savedX = localStorage.getItem("playerX");
+    const savedO = localStorage.getItem("playerO");
 
-    if (savedPlayers) {
-        players = JSON.parse(savedPlayers);
-        playerXInput.value = players.X;
-        playerOInput.value = players.O;
-    }
+    if (savedX) playerXInput.value = savedX;
+    if (savedO) playerOInput.value = savedO;
 }
-
 
 function cellClicked() {
     const cellIndex = this.getAttribute("cellIndex")
     if (board[cellIndex] != "" || !running) {
         return;
     }
-    updateCell(this, cellIndex)
-    checkWinner()
+    updateCell(this, cellIndex);
+    checkWinner();
 }
 
 function updateCell(cell, index) {
     board[index] = current;
     cell.textContent = current;
-}
-
-function changePlayer() {
-
-    if (current === "X") {
-        current = "O";
-    }
-    else {
-        current = "X";
-    }
-
-    statusText.textContent = "Player " + current + "'s turn";
 }
 
 function checkWinner() {
@@ -93,24 +86,66 @@ function checkWinner() {
     }
 
     if (roundWon) {
-        statusText.textContent = `${current}'s wins`;
+        let winnerName;
+        if (current === "X") {
+            winnerName = localStorage.getItem("playerX") || "Player X";
+        } else {
+            winnerName = localStorage.getItem("playerO") || "Player O";
+        }
+
+        statusText.textContent = winnerName + " wins!";
+        saveHistory(winnerName);
         running = false;
+        return;
     }
-    else if (!board.includes("")) {
-        statusText.textContent = "Draw";
+    if (!board.includes("")) {
+        statusText.textContent = "Draw!";
         running = false;
+        return;
     }
-    else {
-        changePlayer();
+    changePlayer();
+}
+
+function changePlayer() {
+
+    if (current === "X") {
+        current = "O";
+    } else {
+        current = "X";
     }
 
+    const playerName = current === "X"
+        ? localStorage.getItem("playerX") || "Player X"
+        : localStorage.getItem("playerO") || "Player O";
+
+    statusText.textContent = playerName + "'s turn";
 }
+
+function saveHistory(winner) {
+    let history = JSON.parse(localStorage.getItem("historyList"));
+    history.push(winner + " won the game");
+
+    localStorage.setItem("historyList", JSON.stringify(history));
+    displayHistory();
+}
+
+function displayHistory() {
+    historyList.innerHTML = "";
+    let history = JSON.parse(localStorage.getItem("historyList"));
+
+    history.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        historyList.appendChild(li);
+    });
+}
+
 
 function restart() {
     for (let i = 0; i < cells.length; i++) {
         cells[i].textContent = "";
         board[i] = "";
-        running = false;
+        running = true;
     }
     current = "X";
     statusText.textContent = "Player X's turn";
