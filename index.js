@@ -123,7 +123,7 @@ function changePlayer() {
 
 function saveHistory(winner) {
     let history = JSON.parse(localStorage.getItem("historyList"));
-    history.push(winner + " won the game");
+    history.unshift(winner + " won the game");
 
     localStorage.setItem("historyList", JSON.stringify(history));
     displayHistory();
